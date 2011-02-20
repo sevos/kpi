@@ -15,8 +15,8 @@ Jeweler::Tasks.new do |gem|
   gem.name = "kpi"
   gem.homepage = "http://github.com/sevos/kpi"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = %Q{Key Performance Indicators for Rails 3.x}
+  gem.description = %Q{This gem helps you to track key indicators in your Rails app.}
   gem.email = "artur.roszczyk@gmail.com"
   gem.authors = ["Artur Roszczyk"]
   # Include your dependencies below. Runtime dependencies are required when using your gem,
