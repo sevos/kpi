@@ -5,34 +5,24 @@
 
 Gem::Specification.new do |s|
   s.name = %q{kpi}
-  s.version = "0.1.0"
+  s.version = "0.2.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Artur Roszczyk"]
   s.date = %q{2011-02-21}
-  s.description = %q{TODO: longer description of your gem}
+  s.description = %q{This gem helps you to track key indicators in your Rails app.}
   s.email = %q{artur.roszczyk@gmail.com}
   s.extra_rdoc_files = [
     "LICENSE.txt",
     "README.rdoc"
   ]
   s.files = [
-    ".document",
-    ".rspec",
-    "Gemfile",
-    "Gemfile.lock",
-    "LICENSE.txt",
-    "README.rdoc",
-    "Rakefile",
-    "VERSION",
     "app/mailers/kpi/mailer.rb",
     "app/models/kpi/entry.rb",
     "app/models/kpi/report/base.rb",
     "app/models/kpi/report/suppress_memoization.rb",
     "app/views/kpi/mailer/report.html.erb",
-    "lib/kpi.rb",
-    "spec/models/kpi/report/base_spec.rb",
-    "spec/spec_helper.rb"
+    "lib/kpi.rb"
   ]
   s.homepage = %q{http://github.com/sevos/kpi}
   s.licenses = ["MIT"]

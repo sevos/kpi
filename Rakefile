@@ -19,6 +19,7 @@ Jeweler::Tasks.new do |gem|
   gem.description = %Q{This gem helps you to track key indicators in your Rails app.}
   gem.email = "artur.roszczyk@gmail.com"
   gem.authors = ["Artur Roszczyk"]
+  gem.files = Dir["{lib}/**/*", "{app}/**/*"]
   # Include your dependencies below. Runtime dependencies are required when using your gem,
   # and development dependencies are only needed for development (ie running rake tasks, tests, etc)
   #  gem.add_runtime_dependency 'jabber4r', '> 0.1'
