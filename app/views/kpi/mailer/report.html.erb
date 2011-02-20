@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+
+  <body>
+    <h1>TimeBacus KPI Report</h1>
+    <h2><%= @title %></h2>
+    <p>Created at: <%= @time.to_s(:db) %></p>
+    <table style="border-collapse: collapse;width: 100%;" width="100%">
+      <tr style="border-bottom: 1px solid black;">
+        <td>KPI</td>
+        <td>Value</td>
+      </tr>
+      <% for entry in @entries %>
+        <tr style="border-bottom: 1px solid black;">
+          <td>
+            <strong><%= entry.name %></strong>
+            <% unless entry.description.blank? %>
+              <br />
+              <span style="color: grey; font-size: smaller;">
+                <%= entry.description %>
+              </span>
+            <% end %>
+          </td>
+          <td style="text-align: center;"><%= entry.value %></td>
+        </tr>
+      <% end %>
+    </table>
+  </body>    
+</html>
