@@ -7,6 +7,7 @@ source "http://rubygems.org"
 # Include everything needed to run rake, tests, features, etc.
 
 gem "actionmailer", "~> 3.0.0"
+gem "activesupport", "~> 3.0.0"
 
 group :development do
   gem "rspec", "~> 2.3.0"
