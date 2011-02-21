@@ -70,6 +70,7 @@ To collect all statistics and send an email to you just call:
       def title; "Your daily report"; end
       # ...
     end
+* You can use Whenever gem to generate periodic reports
 
 == Todo
 
