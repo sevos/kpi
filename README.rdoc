@@ -71,7 +71,14 @@ To collect all statistics and send an email to you just call:
       # ...
     end
 
-== Contributing to kpi
+== Todo
+
+* Database persistence - storing reports in different databases: PostgreSQL & Mongo prioritized
+* Controllers & views allowing to review stored reports
+* More tests ;)
+
+
+== Contributing to KPI
  
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet
 * Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it
