@@ -74,6 +74,7 @@ To collect all statistics and send an email to you just call:
 
 == Todo
 
+* Generators for configuration and reports
 * Database persistence - storing reports in different databases: PostgreSQL & Mongo prioritized
 * Controllers & views allowing to review stored reports
 * More tests ;)
