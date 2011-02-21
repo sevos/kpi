@@ -1,6 +1,75 @@
-= kpi
+= Key Performance Indicators
 
-Description goes here.
+This gem helps you to track key indicators in your Rails app.
+
+Have you even wanted to get daily reports with information:
+* how many users registered to my app?
+* how many users registered today?
+* what is a total revenue today?
+* how many times certain event occurred in app?
+and so on?
+
+This gem lets you define your application state reports with ease. Look:
+
+== Installation
+
+=== Rails 3.x
+
+Add to your Gemfile:
+
+  gem "kpi"
+  
+and run in console in project directory:
+
+  $ bundle
+
+== Configuration
+
+Create config/initializers/kpi.rb:
+
+  KPI.configure do |c|
+    c.app_name = "Your App Name"
+    c.mail_from = "Your App KPI Service <kpi@example.com>"
+    c.mail_to = "your@email.com"
+  end
+
+== Defining report
+
+Example report in app/models/daily_kpi_report.rb:
+
+  class DailyKpiReport < KPI::Report::Base
+    def users_count
+      return ["Users count", User.count, "Total users count"]
+    end
+    
+    def today_registrations_count
+      return ["Today registrations count", User.where("created_at > ?", @time - 24.hours)]
+    end
+  end
+
+Each defined method should return an array containing 2 or 3 elements:
+* KPI title
+* value
+* optional description
+
+It is important, if your indicator depends on current time (last 24 hours, last week),
+to rely on @time instance variable instead of Time.now. This lets you to generate report
+for every moment in history:
+
+  report = DailyKpiReport.new(2.days.ago)
+
+== Sending report
+
+To collect all statistics and send an email to you just call:
+
+  DailyKpiReport.collect_and_send!
+
+== Other
+* You can override report title by overriding title method in report:
+    class DailyKpiReport < KPI::Report::Base
+      def title; "Your daily report"; end
+      # ...
+    end
 
 == Contributing to kpi
  
