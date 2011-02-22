@@ -1,28 +1,11 @@
 module KPI
   module Report
     class Base
-      @@do_not_memoize = [:initialize, :collect!, :entries, :time, :title]
       extend KPI::Report::SuppressMemoization
+      extend KPI::Report::DynamicDefinitions
       extend ActiveSupport::Memoizable
-      
-      def self.method_added(name)
-        unless self.method_blacklisted?(name) || suppressed_memoization?
-          self.defined_kpis << name
-          suppress_memoization { memoize name }
-        end
-      end
-
-      def self.method_blacklisted?(name)
-        @@do_not_memoize.include?(name) || name =~ /_unmemoized_/
-      end
-
-      def self.defined_kpis
-        @kpi_methods ||= []
-      end
-
-      def self.collect_and_send!
-        KPI::Mailer.report(self.new.tap(&:collect!)).deliver
-      end
+      include KPI::Report::MailDelivery
+      blacklist :initialize, :collect!, :entries, :time, :title
 
       def initialize(time=Time.now)
         @time = time
@@ -31,7 +14,7 @@ module KPI
 
       def collect!
         self.class.defined_kpis.each {|kpi_method| send(kpi_method) }
-        self.class.defined_kpis.count
+        self
       end
 
       def entries
