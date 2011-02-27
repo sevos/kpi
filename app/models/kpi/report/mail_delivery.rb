@@ -2,7 +2,7 @@ module KPI
   module Report
     module MailDelivery
       def self.included(base)
-        base.class_eval 
+        base.class_eval do
           blacklist :send!
         end
       end

@@ -9,6 +9,7 @@ require 'kpi'
 # in ./support/ and its subdirectories.
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each {|f| require f}
 
+require File.join(File.dirname(__FILE__), '..', 'lip/kpi/configuration')
 require File.join(File.dirname(__FILE__), '..', 'app/models/kpi/entry')
 require File.join(File.dirname(__FILE__), '..', 'app/models/kpi/report/suppress_memoization')
 require File.join(File.dirname(__FILE__), '..', 'app/models/kpi/report/base')
