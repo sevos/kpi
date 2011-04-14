@@ -2,9 +2,11 @@ module KPI
   module Report
     class Base
       extend KPI::Report::SuppressMemoization
-      extend KPI::Report::DynamicDefinitions
       extend ActiveSupport::Memoizable
+
+      include KPI::Report::DynamicDefinitions
       include KPI::Report::MailDelivery
+      
       blacklist :initialize, :collect!, :entries, :time, :title
 
       def initialize(time=Time.now)
