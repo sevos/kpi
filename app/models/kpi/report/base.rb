@@ -1,3 +1,5 @@
+require 'generator'
+
 module KPI
   module Report
     class Base
@@ -20,7 +22,7 @@ module KPI
       end
 
       def entries
-        Enumerator.new do |yielder|
+        Generator.new do |yielder|
           self.class.defined_kpis.each do |kpi_method|
             result = send(kpi_method)
             yielder.yield(Entry.new(result.shift, result.shift, result.shift))
