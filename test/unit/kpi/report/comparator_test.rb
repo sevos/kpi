@@ -89,7 +89,7 @@ describe "KPI::Report::Comparator" do
       end
 
       it "should have each average entry for each indicator" do
-        assert_equal TestKpi.defined_kpis.size, @average.entries.size
+        assert_equal TestKpi.defined_kpis.size, @average.entries.to_a.size
       end
 
       it "should calculate averages for each indicator" do
