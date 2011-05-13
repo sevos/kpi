@@ -6,8 +6,8 @@ source "http://rubygems.org"
 # Add dependencies to develop your gem here.
 # Include everything needed to run rake, tests, features, etc.
 
-gem "actionmailer", "~> 3.0"
-gem "activesupport", "~> 3.0"
+gem "actionmailer", ">= 2.3"
+gem "activesupport", ">= 2.3"
 
 group :development do
   gem 'minitest'
