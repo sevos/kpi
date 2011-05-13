@@ -7,8 +7,9 @@ module KPI
     
     blacklist :initialize, :collect!, :entries, :time, :title, :defined_kpis
  
-    def initialize(time=Time.now)
-      @time = time
+    def initialize(*args)
+      options = args.extract_options!
+      @time = options[:time] || Time.now
     end
     attr_reader :time
  
