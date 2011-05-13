@@ -34,6 +34,14 @@ describe "KPI::Report::Base" do
       assert_equal 2, @kpi.collect!.entries.count
     end
   end
+  
+  describe :defined_kpis do
+    before { @kpi = TestKpi.new }
+    
+    it "should return KPIs defined by class" do
+      assert_equal TestKpi.defined_kpis, @kpi.defined_kpis
+    end
+  end
 
   describe :entries do
     before { @kpi = TestKpi.new }

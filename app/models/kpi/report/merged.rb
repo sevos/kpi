@@ -12,7 +12,7 @@ module KPI
       
       def entries
         Enumerator.new do |yielder|
-          @reports.first.class.defined_kpis.each do |kpi_method|
+          defined_kpis.each do |kpi_method|
             result = self.send(kpi_method.to_sym)
             yielder.yield(KPI::Entry.new(*result))
           end
@@ -21,6 +21,10 @@ module KPI
 
       def title
         self.class.name
+      end
+      
+      def defined_kpis
+        @reports.map(&:defined_kpis).inject(&:&)
       end
 
       def method_missing(name, *args)

@@ -6,7 +6,7 @@ module KPI
 
       include KPI::Report::DynamicDefinitions
       
-      blacklist :initialize, :collect!, :entries, :time, :title
+      blacklist :initialize, :collect!, :entries, :time, :title, :defined_kpis
 
       def initialize(time=Time.now)
         @time = time
@@ -29,6 +29,10 @@ module KPI
 
       def title
         self.class.name
+      end
+
+      def defined_kpis
+        self.class.defined_kpis
       end
     end
   end

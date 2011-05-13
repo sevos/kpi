@@ -96,5 +96,11 @@ describe "KPI::Report::Merged" do
         assert_equal [5,10], @average.entries.map(&:value)
       end
     end
+    
+    describe :defined_kpis do
+      it "should return KPIs defined by all compounds" do
+        assert_equal TestKpi.defined_kpis, @average.defined_kpis
+      end
+    end
   end
 end
