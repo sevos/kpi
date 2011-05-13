@@ -1,5 +1,5 @@
 module KPI
-  module Report
+  class Report
     module SuppressMemoization
       def suppress_memoization
         Thread.current[:'suppress memoization'] = true

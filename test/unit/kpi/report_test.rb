@@ -1,8 +1,8 @@
-require File.expand_path(File.dirname(__FILE__) + '/../../../test_helper')
+require File.expand_path(File.dirname(__FILE__) + '/../../test_helper')
 
-describe "KPI::Report::Base" do
+describe "KPI::Report" do
   before do
-    class TestKpi < KPI::Report::Base
+    class TestKpi < KPI::Report
       def test_kpi
         return ["title", 1, "description"]
       end
@@ -11,6 +11,7 @@ describe "KPI::Report::Base" do
         return ["another title", 0]
       end
     end
+    @kpi = TestKpi.new
   end
 
   after { Object.send(:remove_const, :TestKpi) }
@@ -29,23 +30,18 @@ describe "KPI::Report::Base" do
   end
 
   describe :collect! do
-    before { @kpi = TestKpi.new }
     it "should collect all KPIs" do
       assert_equal 2, @kpi.collect!.entries.count
     end
   end
   
   describe :defined_kpis do
-    before { @kpi = TestKpi.new }
-    
     it "should return KPIs defined by class" do
       assert_equal TestKpi.defined_kpis, @kpi.defined_kpis
     end
   end
 
   describe :entries do
-    before { @kpi = TestKpi.new }
-
     it "should return enumerator" do
       assert @kpi.entries.kind_of?(Enumerable)
     end
@@ -69,7 +65,7 @@ describe "KPI::Report::Base" do
 
   describe :title do
     it "should return class name by default" do
-      assert_equal "TestKpi", TestKpi.new.title
+      assert_equal "TestKpi", @kpi.title
     end
   end
 end

@@ -1,5 +1,5 @@
 module KPI
-  module Report
+  class Report
     module DynamicDefinitions
       module ClassMethods
         def method_added(name)

@@ -1,9 +1,9 @@
-require File.expand_path(File.dirname(__FILE__) + '/../../../test_helper')
+require File.expand_path(File.dirname(__FILE__) + '/../../test_helper')
 
-describe "KPI::Report::Merged" do
+describe "KPI::MergedReport" do
   
   before do
-    class TestKpi < KPI::Report::Base
+    class TestKpi < KPI::Report
       def initialize return_value = 1
         super()
         @return = return_value
@@ -17,7 +17,7 @@ describe "KPI::Report::Merged" do
         return ["title 2 ", @return*2]
       end
     end
-    class AnotherReport < KPI::Report::Base
+    class AnotherReport < KPI::Report
     end
   end
 
@@ -28,26 +28,26 @@ describe "KPI::Report::Merged" do
 
   describe "when initializing" do
     it "should initialize with list of KPI::Report::Base objects and block" do
-      KPI::Report::Merged.new(TestKpi.new) {}
-      KPI::Report::Merged.new(TestKpi.new,TestKpi.new) {}
-      KPI::Report::Merged.new(TestKpi.new,TestKpi.new,TestKpi.new) {}
+      KPI::MergedReport.new(TestKpi.new) {}
+      KPI::MergedReport.new(TestKpi.new, TestKpi.new) {}
+      KPI::MergedReport.new(TestKpi.new,TestKpi.new, TestKpi.new) {}
     end
 
     it "should require at least one element when initializing" do
       assert_raises(ArgumentError) do
-        KPI::Report::Merged.new() {}
+        KPI::MergedReport.new() {}
       end
     end
 
     it "should require objects of the same type when initializing" do
       assert_raises(ArgumentError) do
-        KPI::Report::Merged.new(TestKpi.new,AnotherReport.new) {}
+        KPI::MergedReport.new(TestKpi.new, AnotherReport.new) {}
       end
     end
 
     it "should require block when initializing" do
       assert_raises(Exception) do
-        KPI::Report::Merged.new(TestKpi.new)
+        KPI::MergedReport.new(TestKpi.new)
       end
     end
   end
@@ -57,7 +57,7 @@ describe "KPI::Report::Merged" do
       report1 = TestKpi.new(2)
       report2 = TestKpi.new(8)
 
-      @average = KPI::Report::Merged.new(report1, report2) do |*entries|
+      @average = KPI::MergedReport.new(report1, report2) do |*entries|
         average = entries.map{|e| KPI::Entry.new(*e).value }.sum / entries.size
         ["Average $$", average, "$$ (average)"]
       end
