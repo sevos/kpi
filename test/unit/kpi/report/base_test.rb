@@ -1,7 +1,5 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../../test_helper')
 
-
-
 describe "KPI::Report::Base" do
   before do
     class TestKpi < KPI::Report::Base
