@@ -14,7 +14,5 @@ require File.join(File.dirname(__FILE__), '..', 'lib/kpi/configuration')
 require File.join(File.dirname(__FILE__), '..', 'app/models/kpi/entry')
 require File.join(File.dirname(__FILE__), '..', 'app/models/kpi/report/dynamic_definitions')
 require File.join(File.dirname(__FILE__), '..', 'app/models/kpi/report/suppress_memoization')
-require File.join(File.dirname(__FILE__), '..', 'app/models/kpi/report/mail_delivery')
 require File.join(File.dirname(__FILE__), '..', 'app/models/kpi/report/base')
-require File.join(File.dirname(__FILE__), '..', 'app/mailers/kpi/mailer')
 
