@@ -7,9 +7,7 @@ describe "KPI::Report::Comparator" do
     end
   end
 
-  after { Object.send(:remove_const, :TestKpi) }
-
-  it "should compare objects" do
+  it "should have class Comparator" do
     assert true 
   end
 
