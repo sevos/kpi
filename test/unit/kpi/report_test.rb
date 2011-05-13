@@ -68,4 +68,10 @@ describe "KPI::Report" do
       assert_equal "TestKpi", @kpi.title
     end
   end
+  
+  describe :time do
+    it "should return overriden time" do
+      assert_equal(:time, TestKpi.new(:time => :time).time)
+    end
+  end
 end
