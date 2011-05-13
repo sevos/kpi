@@ -15,4 +15,9 @@ describe "KPI::Report::Comparator" do
     assert !!ComparatorTest.new(1,2,3,4,5)
   end
 
+  it "should return proper average" do
+    test = ComparatorTest.new(1,2,3,4,5)
+    assert_equal 3.0, test.average
+  end
+
 end

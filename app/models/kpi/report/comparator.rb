@@ -6,12 +6,19 @@ module KPI
 
       include KPI::Report::DynamicDefinitions
       
-      blacklist :initialize, :collect!, :entries, :time, :title
+      blacklist :initialize, :average, :title
 
       def initialize(*args)
+        @comparator ||= []
+        
         args.each do |arg|
-          
+          @comparator << arg 
         end
+
+      end
+
+      def average
+        @comparator.instance_eval { reduce(:+) / size.to_f }
       end
 
       def title
