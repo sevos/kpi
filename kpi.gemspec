@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{kpi}
-  s.version = "0.5.0"
+  s.version = "0.5.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Artur Roszczyk"]
@@ -18,10 +18,11 @@ Gem::Specification.new do |s|
   ]
   s.files = [
     "app/models/kpi/entry.rb",
-    "app/models/kpi/report/base.rb",
+    "app/models/kpi/merged_report.rb",
+    "app/models/kpi/report.rb",
     "app/models/kpi/report/dynamic_definitions.rb",
-    "app/models/kpi/report/merged.rb",
     "app/models/kpi/report/suppress_memoization.rb",
+    "lib/array/extract_options.rb",
     "lib/engine.rb",
     "lib/generators/kpi/USAGE",
     "lib/generators/kpi/kpi_generator.rb",
@@ -32,12 +33,13 @@ Gem::Specification.new do |s|
   s.homepage = %q{http://github.com/sevos/kpi}
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.5.2}
+  s.rubygems_version = %q{1.6.2}
   s.summary = %q{Key Performance Indicators for Rails 3.x}
   s.test_files = [
     "test/test_helper.rb",
-    "test/unit/kpi/report/base_test.rb",
-    "test/unit/kpi/report/merged_test.rb"
+    "test/unit/kpi/entry_tesr.rb",
+    "test/unit/kpi/merged_report_test.rb",
+    "test/unit/kpi/report_test.rb"
   ]
 
   if s.respond_to? :specification_version then

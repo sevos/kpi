@@ -25,10 +25,6 @@ module KPI
       @reports.map(&:defined_kpis).inject(&:&)
     end
 
-    def result(*args)
-      KPI::Entry.new *args
-    end
-
     def method_missing(name, *args)
       result = @compare.call(*@reports.map(&name.to_sym))
       orginal = @reports.first.send(name.to_sym)
