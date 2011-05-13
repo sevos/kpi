@@ -10,11 +10,11 @@ describe "KPI::MergedReport" do
       end
 
       def test_kpi
-        return ["title", @return, "description"]
+        result "title", @return, :description => "description"
       end
 
       def test_kpi_2
-        return ["title 2 ", @return*2]
+        result "title 2 ", @return*2
       end
     end
     class AnotherReport < KPI::Report
@@ -58,25 +58,25 @@ describe "KPI::MergedReport" do
       report2 = TestKpi.new(8)
 
       @average = KPI::MergedReport.new(report1, report2) do |*entries|
-        average = entries.map{|e| KPI::Entry.new(*e).value }.sum / entries.size
-        ["Average $$", average, "$$ (average)"]
+        average = entries.map(&:value).sum / entries.size
+        KPI::Entry.new "Average $$", average, :description => "$$ (average)"
       end
     end
 
     it "should calculate value using block given in initializer when asking for KPI" do
-      assert_equal 5, @average.test_kpi[1]
+      assert_equal 5, @average.test_kpi.value
     end
 
     it "should change $$ in title to indicator title" do
-      assert_equal "Average title", @average.test_kpi[0]
+      assert_equal "Average title", @average.test_kpi.name
     end
 
     it "should change $$ in description to indicator descripiton" do
-      assert_equal "description (average)", @average.test_kpi[2]
+      assert_equal "description (average)", @average.test_kpi.description
     end
 
     it "should return nil description when no description" do
-      assert_nil @average.test_kpi_2[2]
+      assert_nil @average.test_kpi_2.description
     end
 
     describe "entries" do

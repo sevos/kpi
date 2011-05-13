@@ -5,7 +5,7 @@ module KPI
  
     include KPI::Report::DynamicDefinitions
     
-    blacklist :initialize, :collect!, :entries, :time, :title, :defined_kpis
+    blacklist :initialize, :collect!, :entries, :time, :title, :defined_kpis, :result
  
     def initialize(*args)
       options = args.extract_options!
@@ -21,8 +21,7 @@ module KPI
     def entries
       Enumerator.new do |yielder|
         self.class.defined_kpis.each do |kpi_method|
-          result = send(kpi_method)
-          yielder.yield(Entry.new(*result))
+          yielder.yield(send(kpi_method))
         end
       end
     end
@@ -33,6 +32,10 @@ module KPI
  
     def defined_kpis
       self.class.defined_kpis
+    end
+    
+    def result(*args)
+      KPI::Entry.new *args
     end
   end
 end

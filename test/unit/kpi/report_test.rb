@@ -4,11 +4,11 @@ describe "KPI::Report" do
   before do
     class TestKpi < KPI::Report
       def test_kpi
-        return ["title", 1, "description"]
+        return KPI::Entry.new "title", 1, :description => "description"
       end
 
       def another_kpi
-        return ["another title", 0]
+        return KPI::Entry.new "another title", 0
       end
     end
     @kpi = TestKpi.new
@@ -72,6 +72,21 @@ describe "KPI::Report" do
   describe :time do
     it "should return overriden time" do
       assert_equal(:time, TestKpi.new(:time => :time).time)
+    end
+  end
+  
+  describe :result do
+    it "creates KPI::Entry" do
+      class TestKpi
+        def super_kpi
+          result "test", 2, :description => "desc"
+        end
+      end
+      
+      @entry = TestKpi.new.super_kpi
+      assert_equal("test", @entry.name)
+      assert_equal(2, @entry.value)
+      assert_equal("desc", @entry.description)
     end
   end
 end
