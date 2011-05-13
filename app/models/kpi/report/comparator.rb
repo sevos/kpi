@@ -16,7 +16,7 @@ module KPI
       def entries
         Enumerator.new do |yielder|
           @reports.first.class.defined_kpis.each do |kpi_method|
-            result = @compare.call(*@reports.map(&kpi_method.to_sym))
+            result = self.send(kpi_method.to_sym)
             yielder.yield(KPI::Entry.new(*result))
           end
         end
