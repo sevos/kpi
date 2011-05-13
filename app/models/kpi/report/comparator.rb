@@ -8,7 +8,10 @@ module KPI
       
       blacklist :initialize, :collect!, :entries, :time, :title
 
-      def initialize()
+      def initialize(*args)
+        args.each do |arg|
+          
+        end
       end
 
       def title

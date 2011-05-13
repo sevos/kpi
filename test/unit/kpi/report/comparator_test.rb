@@ -11,4 +11,8 @@ describe "KPI::Report::Comparator" do
     assert true 
   end
 
+  it "should initialize with array of args" do
+    assert !!ComparatorTest.new(1,2,3,4,5)
+  end
+
 end
