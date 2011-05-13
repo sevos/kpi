@@ -14,7 +14,7 @@ module KPI
     attr_reader :time
  
     def collect!
-      self.class.defined_kpis.each {|kpi_method| send(kpi_method) }
+      self.defined_kpis.each {|kpi_method| send(kpi_method) }
       self
     end
  
