@@ -5,7 +5,6 @@ module KPI
       extend ActiveSupport::Memoizable
 
       include KPI::Report::DynamicDefinitions
-      include KPI::Report::MailDelivery
       
       blacklist :initialize, :collect!, :entries, :time, :title
 
