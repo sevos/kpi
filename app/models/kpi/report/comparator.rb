@@ -27,8 +27,14 @@ module KPI
       end
 
       def method_missing(name, *args)
-        @compare.call(*@reports.map(&name.to_sym))
+        result = @compare.call(*@reports.map(&name.to_sym))
+        [0,2].each do |i|
+          text = @reports.first.send(name.to_sym)[i]
+          result[i] = text ? result[i].gsub!("$$", text) : nil
+        end
+        result
       end
+      
 
     end
   end
