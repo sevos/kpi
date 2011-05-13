@@ -22,7 +22,7 @@ module KPI
         Enumerator.new do |yielder|
           self.class.defined_kpis.each do |kpi_method|
             result = send(kpi_method)
-            yielder.yield(Entry.new(result[0], result[1], result[2]))
+            yielder.yield(Entry.new(*result))
           end
         end
       end
