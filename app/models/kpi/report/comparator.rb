@@ -9,14 +9,14 @@ module KPI
         raise Exception unless block_given?
         raise ArgumentError, "Argument must be the same type" unless args.map(&:class).uniq.size == 1
         
-        @comparator ||= args
+        @reports ||= args
         @compare = block
       end
       
       def entries
         Enumerator.new do |yielder|
-          @comparator.first.class.defined_kpis.each do |kpi_method|
-            result = @compare.call(*@comparator.map(&:"#{kpi_method}"))
+          @reports.first.class.defined_kpis.each do |kpi_method|
+            result = @compare.call(*@reports.map(&:"#{kpi_method}"))
             yielder.yield(KPI::Entry.new(*result))
           end
         end
@@ -27,8 +27,8 @@ module KPI
       end
 
       def method_missing(name, *args)
-        @comparator.first.class.defined_kpis.each do |kpi_method|
-          @compare.call(*@comparator.map(&:"#{kpi_method}"))
+        @reports.first.class.defined_kpis.each do |kpi_method|
+          @compare.call(*@reports.map(&:"#{kpi_method}"))
         end
       end
 
