@@ -1,18 +1,33 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../../test_helper')
 
-class TestKpi < KPI::Report::Base
-  def test_kpi
-    return ["title", 1, "description"]
-  end
 
-  def another_kpi
-    return ["another title", 0]
-  end
-end
 
 describe "KPI::Report::Base" do
+  before do
+    class TestKpi < KPI::Report::Base
+      def test_kpi
+        return ["title", 1, "description"]
+      end
+
+      def another_kpi
+        return ["another title", 0]
+      end
+    end
+  end
+
+  after { Object.send(:remove_const, :TestKpi) }
+
   it "should define indicators" do
     assert_equal [:test_kpi, :another_kpi], TestKpi.defined_kpis
+  end
+  
+  it "should not define indicator from private method" do
+    class TestKpi
+      private
+      def not_kpi
+      end
+    end
+    assert !TestKpi.defined_kpis.include?(:not_kpi)
   end
 
   describe :collect! do

@@ -10,7 +10,7 @@ module KPI
         end
 
         def method_blacklisted?(name)
-          not_kpi_methods.include?(name) || name =~ /_unmemoized_/
+          not_kpi_methods.include?(name) || name =~ /_unmemoized_/ || !self.instance_methods.include?(name)
         end
 
         def blacklist(*methods)
