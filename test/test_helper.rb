@@ -15,5 +15,5 @@ require File.join(File.dirname(__FILE__), '..', 'app/models/kpi/entry')
 require File.join(File.dirname(__FILE__), '..', 'app/models/kpi/report/dynamic_definitions')
 require File.join(File.dirname(__FILE__), '..', 'app/models/kpi/report/suppress_memoization')
 require File.join(File.dirname(__FILE__), '..', 'app/models/kpi/report/base')
-require File.join(File.dirname(__FILE__), '..', 'app/models/kpi/report/comparator')
+require File.join(File.dirname(__FILE__), '..', 'app/models/kpi/report/merged')
 

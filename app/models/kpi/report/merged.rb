@@ -1,9 +1,6 @@
 module KPI
   module Report
-    class Comparator
-      extend KPI::Report::SuppressMemoization
-      extend ActiveSupport::Memoizable
-
+    class Merged
       def initialize(*args, &block)
         raise ArgumentError, "Should have any argument" if args.length == 0
         raise Exception unless block_given?
