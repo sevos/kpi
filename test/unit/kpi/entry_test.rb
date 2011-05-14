@@ -2,9 +2,9 @@ require File.expand_path(File.dirname(__FILE__) + '/../../test_helper')
 
 describe "KPI::Entry" do
   it "should require exactly 2 arguments" do
-    assert_raises(ArgumentError)) { KPI::Entry.new }
-    assert_raises(ArgumentError)) { KPI::Entry.new "test" }
-    assert_raises(ArgumentError)) { KPI::Entry.new "test", 1, "aaa" }
+    assert_raises(ArgumentError) { KPI::Entry.new }
+    assert_raises(ArgumentError) { KPI::Entry.new "test" }
+    assert_raises(ArgumentError) { KPI::Entry.new "test", 1, "aaa" }
   end
 
   describe "when title and value given" do
@@ -30,7 +30,7 @@ describe "KPI::Entry" do
     end
     
     describe "when unit given" do
-      before { @entry = KPI::Entry.new "Income", 1294.23, :description => "EUR" }
+      before { @entry = KPI::Entry.new "Income", 1294.23, :unit => "EUR" }
     
       it "returns description" do
         assert_equal("EUR", @entry.unit)
