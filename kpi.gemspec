@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{kpi}
-  s.version = "0.5.1"
+  s.version = "0.5.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Artur Roszczyk"]
-  s.date = %q{2011-05-13}
+  s.date = %q{2011-05-14}
   s.description = %q{This gem helps you to track key indicators in your Rails app.}
   s.email = %q{artur.roszczyk@gmail.com}
   s.extra_rdoc_files = [
@@ -33,7 +33,7 @@ Gem::Specification.new do |s|
   s.homepage = %q{http://github.com/sevos/kpi}
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.6.2}
+  s.rubygems_version = %q{1.5.2}
   s.summary = %q{Key Performance Indicators for Rails 3.x}
   s.test_files = [
     "test/test_helper.rb",
