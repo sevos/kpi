@@ -28,9 +28,12 @@ module KPI
     def method_missing(name, *args)
       result = @compare.call(*@reports.map(&name.to_sym))
       orginal = @reports.first.send(name.to_sym)
-      description = (orginal.description ? result.description.gsub("$$", orginal.description) : nil)
+      description = (orginal.description && result.description ? result.description.gsub("$$", orginal.description) : nil)
 
-      KPI::Entry.new(result.name.gsub("$$", orginal.name), result.value, :description => description)
+      KPI::Entry.new(result.name.gsub("$$", orginal.name),
+                     result.value,
+                     :description => description,
+                     :unit => (result.unit || orginal.unit))
     end
   end
 end

@@ -14,7 +14,7 @@ describe "KPI::MergedReport" do
       end
 
       def test_kpi_2
-        result "title 2 ", @return*2
+        result "title 2 ", @return*2, :unit => '€'
       end
     end
     class AnotherReport < KPI::Report
@@ -54,10 +54,10 @@ describe "KPI::MergedReport" do
 
   describe "when two reports given for average" do
     before do
-      report1 = TestKpi.new(2)
-      report2 = TestKpi.new(8)
+      @report1 = TestKpi.new(2)
+      @report2 = TestKpi.new(8)
 
-      @average = KPI::MergedReport.new(report1, report2) do |*entries|
+      @average = KPI::MergedReport.new(@report1, @report2) do |*entries|
         average = entries.map(&:value).sum / entries.size
         KPI::Entry.new "Average $$", average, :description => "$$ (average)"
       end
@@ -73,6 +73,18 @@ describe "KPI::MergedReport" do
 
     it "should change $$ in description to indicator descripiton" do
       assert_equal "description (average)", @average.test_kpi.description
+    end
+    
+    it "should have unit" do
+      assert_equal "€", @average.test_kpi_2.unit
+    end
+    
+    it "should allow to override unit" do
+      @merged = KPI::MergedReport.new(@report1, @report2) do |*entries|
+        KPI::Entry.new "merged $$", 1, :unit => "$"
+      end
+      assert_equal '$', @merged.test_kpi.unit
+      assert_equal '$', @merged.test_kpi_2.unit
     end
 
     it "should return nil description when no description" do

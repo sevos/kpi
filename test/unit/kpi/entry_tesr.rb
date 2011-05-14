@@ -28,5 +28,13 @@ describe "KPI::Entry" do
         assert_equal("desc", @entry.description)
       end
     end
+    
+    describe "when unit given" do
+      before { @entry = KPI::Entry.new "Income", 1294.23, :description => "€" }
+    
+      it "returns description" do
+        assert_equal("€", @entry.unit)
+      end
+    end
   end
 end
