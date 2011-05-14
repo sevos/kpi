@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{kpi}
-  s.version = "0.5.2"
+  s.version = "0.5.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Artur Roszczyk"]
@@ -37,7 +37,7 @@ Gem::Specification.new do |s|
   s.summary = %q{Key Performance Indicators for Rails 3.x}
   s.test_files = [
     "test/test_helper.rb",
-    "test/unit/kpi/entry_tesr.rb",
+    "test/unit/kpi/entry_test.rb",
     "test/unit/kpi/merged_report_test.rb",
     "test/unit/kpi/report_test.rb"
   ]
