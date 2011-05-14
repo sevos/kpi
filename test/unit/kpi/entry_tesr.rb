@@ -30,10 +30,10 @@ describe "KPI::Entry" do
     end
     
     describe "when unit given" do
-      before { @entry = KPI::Entry.new "Income", 1294.23, :description => "€" }
+      before { @entry = KPI::Entry.new "Income", 1294.23, :description => "EUR" }
     
       it "returns description" do
-        assert_equal("€", @entry.unit)
+        assert_equal("EUR", @entry.unit)
       end
     end
   end

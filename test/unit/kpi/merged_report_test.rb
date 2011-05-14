@@ -14,7 +14,7 @@ describe "KPI::MergedReport" do
       end
 
       def test_kpi_2
-        result "title 2 ", @return*2, :unit => '€'
+        result "title 2 ", @return*2, :unit => 'EUR'
       end
     end
     class AnotherReport < KPI::Report
@@ -76,7 +76,7 @@ describe "KPI::MergedReport" do
     end
     
     it "should have unit" do
-      assert_equal "€", @average.test_kpi_2.unit
+      assert_equal "EUR", @average.test_kpi_2.unit
     end
     
     it "should allow to override unit" do
