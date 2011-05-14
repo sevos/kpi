@@ -22,62 +22,106 @@ Add to your Gemfile:
 and run in console in project directory:
 
   $ bundle
+  
+=== Rails 2.x
 
-== Configuration
-
-Create config/initializers/kpi.rb:
-
-  KPI.configure do |c|
-    c.app_name = "Your App Name"
-    c.mail_from = "Your App KPI Service <kpi@example.com>"
-    c.mail_to = "your@email.com"
-  end
+This gem is tested with Rails 2.3.8.
 
 == Defining report
 
 Example report in app/models/daily_kpi_report.rb:
 
-  class DailyKpiReport < KPI::Report::Base
+  class DailyKpiReport < KPI::Report
     def users_count
-      return ["Users count", User.count, "Total users count"]
+      result "Users count", User.count, :description => "Total users count"
     end
     
     def today_registrations_count
-      return ["Today registrations count", User.where("created_at > ?", @time - 24.hours)]
+      result "Today registrations count", User.where("created_at > ?", @time - 24.hours)
+    end
+    
+    def total_income
+      result "Total income", Order.sum(:total), :unit => 'EUR'
+    end
+    
+    def today_income
+      result "Total income", Order.where(:created_at => today).sum(:total), :unit => 'EUR'
+    end
+    
+    private
+    
+    def today
+      ((time - 24.hours)..time)
     end
   end
 
-Each defined method should return an array containing 2 or 3 elements:
-* KPI title
+Each defined method should return a KPI::Entry object with following accessors:
+* name
 * value
-* optional description
+* description
+* unit
 
 It is important, if your indicator depends on current time (last 24 hours, last week),
 to rely on @time instance variable instead of Time.now. This lets you to generate report
 for every moment in history:
 
-  report = DailyKpiReport.new(2.days.ago)
+  report = DailyKpiReport.new(:time => 2.days.ago)
 
-== Sending report
+=== Merged reports
 
-To collect all statistics and send an email to you just call:
+You can create merged report from two or more reports of the same type. Look at examples:
 
-  DailyKpiReport.collect_and_send!
+    > today = DailyKpiReport.new
+    > today.users_count.value
+    # => 20
+    > today.today_income.value
+    # => 350
+    > yesterday = DailyKpiReport.new(:time => 1.day.ago)
+    > yesterday.users_count.value
+    # => 16
+    > yesterday.today_income.value
+    # => 250
+    > diff = KPI::MergedReport.new(today, yesterday) do |today, yesterday|
+    >   KPI::Entry.new "$$ (change)", today - yesterday
+    > end
+    > avg = KPI::MergedReport.new(today, yesterday) do |*entries|
+    >   KPI::Entry.new "$$ (avg)", entries
+    > end
+    > diff.users_count.value
+    # => 4
+    > avg.today_income.value
+    # => 300
+    > avg.today_income.unit
+    # => "EUR"
+
+More reports can be passed to constructor of Merged report:
+    avg = KPI::MergedReport.new(week_now, week_last, week_next_to_last) do |*entries|
+      # ...
+    end
 
 == Other
 * You can override report title by overriding title method in report:
-    class DailyKpiReport < KPI::Report::Base
+    class DailyKpiReport < KPI::Report
       def title; "Your daily report"; end
       # ...
     end
 * You can use Whenever gem to generate periodic reports
-
+* Private methods are not considered as indicator methods and can be used as helper methods:
+    class WeeklyReport < KPI::Report
+      # ...
+      private
+      
+      def week_range
+        t_prev_mon_begin = time - (time.wday-1)*24*60*60 - time.hour*60*60 - time.min*60 - time.sec
+        t_next_sun_end = t_prev_mon_begin + 7*24*60*60 - 1
+        (t_prev_mon_begin..t_next_sun_end)
+      end
+    end
 == Todo
 
 * Generators for configuration and reports
 * Database persistence - storing reports in different databases: PostgreSQL & Mongo prioritized
-* Controllers & views allowing to review stored reports
-* More tests ;)
+* Support for "result" helper in block passed to constructor of MergedReport
 
 
 == Contributing to KPI
