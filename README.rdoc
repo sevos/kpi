@@ -61,6 +61,8 @@ Each defined method should return a KPI::Entry object with following accessors:
 * description
 * unit
 
+A collection of KPI::Entry is available through Enuberable: Report#entries
+
 It is important, if your indicator depends on current time (last 24 hours, last week),
 to rely on @time instance variable instead of Time.now. This lets you to generate report
 for every moment in history:
