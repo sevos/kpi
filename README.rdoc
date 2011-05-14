@@ -124,6 +124,7 @@ More reports can be passed to constructor of Merged report:
 * Generators for configuration and reports
 * Database persistence - storing reports in different databases: PostgreSQL & Mongo prioritized
 * Support for "result" helper in block passed to constructor of MergedReport
+* Remove ActiveSupport requirement
 
 
 == Contributing to KPI
