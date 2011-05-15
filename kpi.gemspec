@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{kpi}
-  s.version = "0.5.3"
+  s.version = "0.5.4"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Artur Roszczyk"]
-  s.date = %q{2011-05-14}
+  s.date = %q{2011-05-15}
   s.description = %q{This gem helps you to track key indicators in your Rails app.}
   s.email = %q{artur.roszczyk@gmail.com}
   s.extra_rdoc_files = [
@@ -27,8 +27,7 @@ Gem::Specification.new do |s|
     "lib/generators/kpi/USAGE",
     "lib/generators/kpi/kpi_generator.rb",
     "lib/kpi.rb",
-    "lib/kpi/18compatibility.rb",
-    "lib/kpi/configuration.rb"
+    "lib/kpi/18compatibility.rb"
   ]
   s.homepage = %q{http://github.com/sevos/kpi}
   s.licenses = ["MIT"]
