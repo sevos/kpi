@@ -84,10 +84,10 @@ You can create merged report from two or more reports of the same type. Look at 
     > yesterday.today_income.value
     # => 250
     > diff = KPI::MergedReport.new(today, yesterday) do |today, yesterday|
-    >   KPI::Entry.new "$$ (change)", today - yesterday
+    >   KPI::Entry.new "$$ (change)", today.value - yesterday.value
     > end
     > avg = KPI::MergedReport.new(today, yesterday) do |*entries|
-    >   KPI::Entry.new "$$ (avg)", entries
+    >   KPI::Entry.new "$$ (avg)", entries.map(&:value).inject(:+) / entries.size
     > end
     > diff.users_count.value
     # => 4
@@ -122,7 +122,7 @@ More reports can be passed to constructor of Merged report:
 == Todo
 
 * Generators for configuration and reports
-* Database persistence - storing reports in different databases: PostgreSQL & Mongo prioritized
+* Database persistence - storing reports in different databases: PostgreSQL & Mongo prioritized - should be done in external gems
 * Support for "result" helper in block passed to constructor of MergedReport
 * Remove ActiveSupport requirement
 
