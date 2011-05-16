@@ -22,13 +22,18 @@ module KPI
     end
     
     def defined_kpis
-      @_reports.map(&:defined_kpis).inject(&@_mode)
+      # takes all reports and uses & (default) or | operator for inject function
+      # to build list of defined KPIs
+      @_reports.map(&:defined_kpis).inject(&@_mode) 
     end
 
     def method_missing(name, *args)
       result = merge_proc_call(name)
-      orginal = @_reports.find { |r| r.defined_kpis.include?(name) }.send(name.to_sym)
-      description = (orginal.description && result.description ? result.description.gsub("$$", orginal.description) : nil)
+      orginal = @_reports.find { |r| r.defined_kpis.include?(name) }.send(name.to_sym)   # find first report having requested KPI
+      description = if orginal.description && result.description                         # if description exists in orginal and result Entries
+                      result.description.gsub("$$", orginal.description)
+                    else nil
+                    end
 
       KPI::Entry.new(result.name.gsub("$$", orginal.name),
                      result.value,
@@ -40,12 +45,12 @@ module KPI
     
     def merge_proc_call(name)
       sym_name = name.to_sym
-      args = @_mode == :& ? @_reports.map(&sym_name) : begin
-        @_reports.map do |report|
-          report.defined_kpis.include?(name) ? report.send(name) : nil
+      args = @_mode == :& ? @_reports.map(&sym_name) : begin           # if report is in intersection mode, query for an KPI, otherwise
+        @_reports.map do |report|                                      #   for each report
+          report.defined_kpis.include?(name) ? report.send(name) : nil #     if it has requested kpi return it's result, otherwise: nil
         end
       end
-      @_merge.call(*args)
+      @_merge.call(*args)                                              # call merge proc with according KPIs
     end
   end
 end
