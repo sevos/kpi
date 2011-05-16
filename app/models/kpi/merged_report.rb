@@ -4,8 +4,8 @@ module KPI
       raise ArgumentError, "Should have any argument" if args.length == 0
       raise Exception unless block_given?
 
-      @reports ||= args
-      @compare = block
+      @_reports ||= args
+      @_compare = block
     end
     
     def entries
@@ -21,12 +21,12 @@ module KPI
     end
     
     def defined_kpis
-      @reports.map(&:defined_kpis).inject(&:&)
+      @_reports.map(&:defined_kpis).inject(&:&)
     end
 
     def method_missing(name, *args)
-      result = @compare.call(*@reports.map(&name.to_sym))
-      orginal = @reports.first.send(name.to_sym)
+      result = @_compare.call(*@_reports.map(&name.to_sym))
+      orginal = @_reports.first.send(name.to_sym)
       description = (orginal.description && result.description ? result.description.gsub("$$", orginal.description) : nil)
 
       KPI::Entry.new(result.name.gsub("$$", orginal.name),
