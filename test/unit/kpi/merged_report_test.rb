@@ -113,6 +113,28 @@ describe "KPI::MergedReport" do
       it "should return KPIs defined by all compounds" do
         assert_equal TestKpi.defined_kpis, @average.defined_kpis
       end
+
+      it "should check if defined_kpis return array of symbol" do
+        assert_same true, @average.defined_kpis.map(&:class).uniq === [Symbol]
+      end
+
+      it "should be true when check if kpi exists" do
+        @raport = TestKpi.new(3)
+        assert @raport.kpi_exists?("test_kpi")
+      end
+
+      it "should be false when check if kpi exists" do  
+        @raport = TestKpi.new(3)
+        assert !@raport.kpi_exists?("test_kpi_nie_ma")
+      end
+
+      it "should return test_kpi when calling test_kpi?" do
+        assert true, @average.test_kpi?
+      end
+      
+      it "should return false when calling non existing method with '?'" do
+        assert !@average.test_kpi_23?
+      end
     end
   end
 end

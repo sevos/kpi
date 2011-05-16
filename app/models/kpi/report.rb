@@ -31,9 +31,13 @@ module KPI
     end
  
     def defined_kpis
-      self.class.defined_kpis
+      self.class.defined_kpis.map(&:to_sym)
     end
     
+    def kpi_exists?(name)    
+      self.defined_kpis.include?(name.to_sym)
+    end
+
     def result(*args)
       KPI::Entry.new *args
     end
