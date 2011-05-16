@@ -122,11 +122,13 @@ describe "KPI::MergedReport" do
   end
 
   describe "when different reports given for merge" do
+    before do
+      @report1 = TestKpi.new(2)
+      @report2 = AnotherReport.new
+    end
+
     describe "when intersection" do
       before do
-        @report1 = TestKpi.new(2)
-        @report2 = AnotherReport.new
-
         @merge = KPI::MergedReport.new(@report1, @report2) do |test, another|
           KPI::Entry.new "$$", {:test => test, :another => another}, :description => '$$'
         end
@@ -142,6 +144,23 @@ describe "KPI::MergedReport" do
 
       it "should return values for common KPI" do
         assert_instance_of Hash, @merge.test_kpi.value
+      end
+    end
+    
+    describe "when conjunction" do
+      before do
+        @merge = KPI::MergedReport.new(@report1, @report2, :mode => :|) do |test, another|
+          merge = {:test => test.try(:value), :another => another.try(:value)}
+          KPI::Entry.new "$$", merge, :description => '$$'
+        end
+      end
+    
+      it "should have all KPI of both reports" do
+        assert_equal [:test_kpi, :test_kpi_2, :another_kpi], @merge.defined_kpis
+      end
+    
+      it "should return KPI" do
+        assert_equal({:test => nil, :another => 5}, @merge.another_kpi.value)
       end
     end
   end
