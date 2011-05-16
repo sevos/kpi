@@ -5,7 +5,7 @@ module KPI
  
     include KPI::Report::DynamicDefinitions
     
-    blacklist :initialize, :collect!, :entries, :time, :title, :defined_kpis, :result
+    blacklist :initialize, :collect!, :entries, :time, :title, :defined_kpis, :result, :method_missing
  
     def initialize(*args)
       @options = args.extract_options!
@@ -31,11 +31,23 @@ module KPI
     end
  
     def defined_kpis
-      self.class.defined_kpis
+      self.class.defined_kpis.map(&:to_sym)
     end
-    
+
     def result(*args)
       KPI::Entry.new *args
+    end
+    
+    def method_missing(name, *args)
+      # check if KPI exists in report if name of missing method has trailing '?'
+      return kpi_exists?($1.to_sym) if (/(.*)\?/ =~ name.to_s)
+      super
+    end
+    
+    private
+    
+    def kpi_exists?(name)    
+      self.defined_kpis.include?(name.to_sym)
     end
   end
 end
