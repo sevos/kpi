@@ -29,10 +29,10 @@ module KPI
     end
 
     def method_missing(name, *args)
-      return kpi_exists?($1) if (/(.*)\?/ =~ name.to_s)                                  # check if KPI exists in report if name of missing method has trailing '?'
-      result = merge_proc_call(name)
-      orginal = @_reports.find { |r| r.defined_kpis.include?(name) }.send(name.to_sym)   # find first report having requested KPI
-      description = if orginal.description && result.description                         # if description exists in orginal and result Entries
+      return kpi_exists?($1) if (/(.*)\?/ =~ name.to_s)                  # check if KPI exists in report if name of missing method has trailing '?'
+      result = merge_proc_call(name)                                     
+      orginal = @_reports.find(&:"#{name}?").send(name)                  # find first report having requested KPI
+      description = if orginal.description && result.description         # if description exists in orginal and result Entries
                       result.description.gsub("$$", orginal.description)
                     else nil
                     end
@@ -51,12 +51,12 @@ module KPI
 
     def merge_proc_call(name)
       sym_name = name.to_sym
-      args = @_mode == :& ? @_reports.map(&sym_name) : begin           # if report is in intersection mode, query for an KPI, otherwise
-        @_reports.map do |report|                                      #   for each report
-          report.defined_kpis.include?(name) ? report.send(name) : nil #     if it has requested kpi return it's result, otherwise: nil
+      args = @_mode == :& ? @_reports.map(&sym_name) : begin # if report is in intersection mode, query for an KPI, otherwise
+        @_reports.map do |report|                            #   for each report
+          report.send("#{name}?") ? report.send(name) : nil  #     if it has requested kpi return it's result, otherwise: nil
         end
       end
-      @_merge.call(*args)                                              # call merge proc with according KPIs
+      @_merge.call(*args)                                    # call merge proc with according KPIs
     end
   end
 end
