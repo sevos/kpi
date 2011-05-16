@@ -18,6 +18,13 @@ describe "KPI::MergedReport" do
       end
     end
     class AnotherReport < KPI::Report
+      def test_kpi
+        result "title", 3, :description => "description"
+      end
+
+      def another_kpi
+        result "another", 5
+      end
     end
   end
 
@@ -39,10 +46,8 @@ describe "KPI::MergedReport" do
       end
     end
 
-    it "should require objects of the same type when initializing" do
-      assert_raises(ArgumentError) do
-        KPI::MergedReport.new(TestKpi.new, AnotherReport.new) {}
-      end
+    it "should allow objects of the same type when initializing" do
+      KPI::MergedReport.new(TestKpi.new, AnotherReport.new) {}
     end
 
     it "should require block when initializing" do
@@ -52,7 +57,7 @@ describe "KPI::MergedReport" do
     end
   end
 
-  describe "when two reports given for average" do
+  describe "when two identical reports given for average" do
     before do
       @report1 = TestKpi.new(2)
       @report2 = TestKpi.new(8)
@@ -112,6 +117,31 @@ describe "KPI::MergedReport" do
     describe :defined_kpis do
       it "should return KPIs defined by all compounds" do
         assert_equal TestKpi.defined_kpis, @average.defined_kpis
+      end
+    end
+  end
+
+  describe "when different reports given for merge" do
+    describe "when intersection" do
+      before do
+        @report1 = TestKpi.new(2)
+        @report2 = AnotherReport.new
+
+        @merge = KPI::MergedReport.new(@report1, @report2) do |test, another|
+          KPI::Entry.new "$$", {:test => test, :another => another}, :description => '$$'
+        end
+      end
+
+      it "should have only common KPI defined" do
+        assert_equal [:test_kpi], @merge.defined_kpis
+      end
+
+      it "should not repospond for not common KPI" do
+        assert_raises(NoMethodError) { @merge.another_kpi }
+      end
+
+      it "should return values for common KPI" do
+        assert_instance_of Hash, @merge.test_kpi.value
       end
     end
   end

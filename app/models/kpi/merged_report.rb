@@ -3,7 +3,6 @@ module KPI
     def initialize(*args, &block)
       raise ArgumentError, "Should have any argument" if args.length == 0
       raise Exception unless block_given?
-      raise ArgumentError, "Argument must be the same type" unless args.map(&:class).uniq.size == 1
 
       @reports ||= args
       @compare = block
