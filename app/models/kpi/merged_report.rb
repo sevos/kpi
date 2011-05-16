@@ -5,7 +5,7 @@ module KPI
       raise Exception unless block_given?
 
       @_reports ||= args
-      @_compare = block
+      @_merge = block
     end
     
     def entries
@@ -25,7 +25,7 @@ module KPI
     end
 
     def method_missing(name, *args)
-      result = @_compare.call(*@_reports.map(&name.to_sym))
+      result = merge_proc_call(name)
       orginal = @_reports.first.send(name.to_sym)
       description = (orginal.description && result.description ? result.description.gsub("$$", orginal.description) : nil)
 
@@ -33,6 +33,13 @@ module KPI
                      result.value,
                      :description => description,
                      :unit => (result.unit || orginal.unit))
+    end
+    
+    private
+    
+    def merge_proc_call(name)
+      sym_name = name.to_sym
+      @_merge.call(*@_reports.map(&sym_name))
     end
   end
 end
