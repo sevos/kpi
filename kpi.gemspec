@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{kpi}
-  s.version = "0.5.5"
+  s.version = "0.5.6"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Artur Roszczyk"]
-  s.date = %q{2011-05-16}
+  s.date = %q{2011-05-18}
   s.description = %q{This gem helps you to track key indicators in your Rails app.}
   s.email = %q{artur.roszczyk@gmail.com}
   s.extra_rdoc_files = [
