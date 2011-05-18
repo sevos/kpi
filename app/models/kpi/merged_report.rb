@@ -40,7 +40,8 @@ module KPI
       KPI::Entry.new(result.name.gsub("$$", orginal.name),
                      result.value,
                      :description => description,
-                     :unit => (result.unit || orginal.unit))
+                     :unit => (result.unit || orginal.unit),
+                     :important => (result.important? || orginal.important?))
     end
     
     private

@@ -14,7 +14,7 @@ describe "KPI::MergedReport" do
       end
 
       def test_kpi_2
-        result "title 2 ", @return*2, :unit => 'EUR'
+        result "title 2 ", @return*2, :unit => 'EUR', :important => true
       end
     end
     class AnotherReport < KPI::Report
@@ -79,11 +79,15 @@ describe "KPI::MergedReport" do
     it "should change $$ in description to indicator descripiton" do
       assert_equal "description (average)", @average.test_kpi.description
     end
-    
+
+    it "should return nil description when no description" do
+      assert_nil @average.test_kpi_2.description
+    end
+
     it "should have unit" do
       assert_equal "EUR", @average.test_kpi_2.unit
     end
-    
+
     it "should allow to override unit" do
       @merged = KPI::MergedReport.new(@report1, @report2) do |*entries|
         KPI::Entry.new "merged $$", 1, :unit => "$"
@@ -91,9 +95,17 @@ describe "KPI::MergedReport" do
       assert_equal '$', @merged.test_kpi.unit
       assert_equal '$', @merged.test_kpi_2.unit
     end
-
-    it "should return nil description when no description" do
-      assert_nil @average.test_kpi_2.description
+    
+    it "should pass important flag" do
+      assert @average.test_kpi_2.important?
+    end
+    
+    it "should allow to override important flag" do
+      @merged = KPI::MergedReport.new(@report1, @report2) do |*entries|
+        KPI::Entry.new "merged $$", 1, :important => true
+      end
+      assert @merged.test_kpi.important?
+      assert @merged.test_kpi_2.important?
     end
 
     describe "entries" do
