@@ -36,5 +36,31 @@ describe "KPI::Entry" do
         assert_equal("EUR", @entry.unit)
       end
     end
+    
+    describe "when entry is important" do
+      before { @entry = KPI::Entry.new "Income", 1294.23, :important => true }
+    
+      it "returns true" do
+        assert @entry.important
+      end
+    end
+    
+    describe :important? do
+      describe "when entry is important" do
+        before { @entry = KPI::Entry.new "Income", 1294.23, :important => true }
+
+        it "returns true" do
+          assert @entry.important?
+        end
+      end
+      
+      describe "when entry is not important" do
+        before { @entry = KPI::Entry.new "Income", 1294.23 }
+
+        it "returns false" do
+          assert !@entry.important?
+        end
+      end
+    end
   end
 end
