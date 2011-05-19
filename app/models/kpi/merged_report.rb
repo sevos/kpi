@@ -6,6 +6,8 @@ module KPI
       raise ArgumentError, "Should have any argument" if args.length == 0
       raise Exception unless block_given?
       @_mode = options[:mode] || :&
+      @_title = options[:title] 
+
       @_reports = args
       @_merge = block
     end
@@ -19,7 +21,7 @@ module KPI
     end
   
     def title
-      self.class.name
+      @_title || @_reports.first.title
     end
     
     def defined_kpis

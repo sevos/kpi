@@ -145,6 +145,22 @@ describe "KPI::MergedReport" do
     end
   end
 
+  describe :title do
+    before do
+      @partial_report = TestKpi.new
+    end
+
+    it "should return title passed in options" do
+      report = KPI::MergedReport.new(@partial_report, :title => "my title") {}
+      assert_equal "my title", report.title
+    end
+
+    it "should return title of first report by default" do
+      report = KPI::MergedReport.new(@partial_report) {}
+      assert_equal @partial_report.title, report.title
+    end
+  end
+
   describe "when different reports given for merge" do
     before do
       @report1 = TestKpi.new(2)
