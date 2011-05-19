@@ -10,7 +10,10 @@ module KPI
         end
 
         def method_blacklisted?(name)
-          not_kpi_methods.include?(name) || name =~ /_unmemoized_/ || !self.instance_methods(true).map(&:to_sym).include?(name)
+          KPI::Report.not_kpi_methods.include?(name) ||
+          not_kpi_methods.include?(name) ||
+          name =~ /_unmemoized_/ ||
+          !self.instance_methods(true).map(&:to_sym).include?(name)
         end
 
         def blacklist(*methods)

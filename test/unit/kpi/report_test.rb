@@ -67,6 +67,15 @@ describe "KPI::Report" do
     it "should return class name by default" do
       assert_equal "TestKpi", @kpi.title
     end
+    
+    it "should allow to override title" do
+      class AnotherKpi < KPI::Report
+        def title; "title"; end
+      end
+      @kpi = AnotherKpi.new
+      assert_equal "title", @kpi.title
+      assert !@kpi.defined_kpis.include?(:title), 'report should not have :title KPI'
+    end
   end
   
   describe :time do
