@@ -68,13 +68,17 @@ describe "KPI::Report" do
       assert_equal "TestKpi", @kpi.title
     end
     
-    it "should allow to override title" do
+    it "should allow to override title in definition" do
       class AnotherKpi < KPI::Report
         def title; "title"; end
       end
       @kpi = AnotherKpi.new
       assert_equal "title", @kpi.title
       assert !@kpi.defined_kpis.include?(:title), 'report should not have :title KPI'
+    end
+    
+    it "should allow to override title in options" do
+      assert_equal "my title", TestKpi.new(:title => "my title").title
     end
   end
   

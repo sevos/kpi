@@ -10,8 +10,9 @@ module KPI
     def initialize(*args)
       @options = args.extract_options!
       @time = @options[:time] || Time.now
+      @title = @options[:title] || self.class.name
     end
-    attr_reader :time
+    attr_reader :time, :title
  
     def collect!
       self.defined_kpis.each {|kpi_method| send(kpi_method) }
@@ -24,10 +25,6 @@ module KPI
           yielder.yield(send(kpi_method))
         end
       end
-    end
- 
-    def title
-      self.class.name
     end
  
     def defined_kpis
