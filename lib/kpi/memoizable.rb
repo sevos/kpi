@@ -11,7 +11,8 @@ module KPI
       def self.included(base)
         base.class_eval do
           unless base.method_defined?(:freeze_without_memoizable)
-            alias_method_chain :freeze, :memoizable
+            alias_method :freeze_without_memoizable, :freeze
+            alias_method :freeze, :freeze_with_memoizable
           end
         end
       end
